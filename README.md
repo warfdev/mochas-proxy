@@ -1,5 +1,6 @@
 # Mochas Proxy
 - latest version 1.1
+- android client
 - discord support [server](https://discord.gg/Aj9UDmhz9b)
 
 # Genta
