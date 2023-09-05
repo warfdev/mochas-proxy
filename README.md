@@ -1,5 +1,5 @@
 # Mochas Proxy
-- latest version 1.2 ( change branch )
+- latest version 1.2
 - android client
 - discord support [server](https://discord.gg/Aj9UDmhz9b)
 
