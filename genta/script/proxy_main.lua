@@ -6,7 +6,7 @@
  local config = {} 
  proxy.dev = "9mocha." 
  proxy.name = "Mochas Proxy" 
- proxy.version = "v1.1" 
+ proxy.version = "v1.2" 
  proxy.support = "undefined" 
  proxy.password = "mochasme202010" 
  proxy.error = "`4[ERROR]`` " 
@@ -23,7 +23,9 @@
  command.var = {} 
  command.var.test = "hello" 
  command.var.invis = false 
- command.var.gforg = false 
+ command.var.gforg = false
+ command.var.wrenchpull = false
+ command.var.savedworld = false
   
   
  -- config vars 
@@ -33,6 +35,7 @@
  local gforgg
  local drtitle
  local mod
+ 
   
   
  -- custom funcs 
@@ -158,6 +161,13 @@ end
     return hasil
  end
  
+ function tOverlay(str)
+   SendVariant({
+   	[0] = "OnTextOverlay",
+       [1] = str,
+   }, GetLocal().netid)
+ end
+ 
  
   
   
@@ -172,7 +182,11 @@ add_textbox|`6/invis`` [you become invisible]||
 add_textbox|`6/scolor`` [you change your skin color]|| 
 add_textbox|`6/wd`` [drop wl (if u have)]|| 
 add_textbox|`6/dd`` [drop dl (if u have)]|| 
-add_textbox|`6/bd`` [drop bgl (if u have)]|| 
+add_textbox|`6/bd`` [drop bgl (if u have)]||
+add_textbox|`6/w`` [warping world]||
+add_textbox|`6/save`` [Saves the world name you are in (warping system)]||
+add_textbox|`6/back`` [You warp into the world you saved]||
+add_textbox|`6/relog`` [re-login]||
 add_spacer|big|
 add_label_with_icon|big|`6Other:|left|32|
 add_button|proxywrenchm|`wExtra Cheats|
@@ -266,7 +280,7 @@ end_dialog|proxycredits|Close||
     nick = GetLocal().name
     SendVariant({
             [0] = "OnNameChanged",
-            [1] = nick:gsub("`4Dr.", ""),
+            [1] = nick:gsub("Dr%.", ""),
         },GetLocal().netid)
         SendVariant({
             [0] = "OnCountryState",
@@ -281,6 +295,7 @@ end_dialog|proxycredits|Close||
     mod = false
   end
   end
+  
   
   
   end -- user.haslogin
@@ -323,6 +338,7 @@ end_dialog|proxycredits|Close||
      gforg = multiboxChecker(gforgg)
      drt = multiboxChecker(drtitle)
      modd = multiboxChecker(mod)
+     legend = multiboxChecker(legendt)
      SendVariant({
      	[0] = "OnDialogRequest",
          [1] = [[
@@ -440,6 +456,53 @@ end_dialog|proxywrenchend|Close|Set|
      end 
      return true 
    end
+   
+   
+   -- /w command
+   if packet:find("/w (.+)") then
+     if user.haslogin == true then
+       SendPacket(3, "action|join_request\nname|"..packet:match("/w (.+)").."\ninvitedWorld|0")
+       tOverlay("Warping to `2"..packet:match("/w (.+)"))
+       plog("Warping to `w"..packet:match("/w (.+)"))
+     else
+       errc(proxy.errlogin)
+     end
+     return true
+   end
+   
+   
+   -- /save & /back command
+   if packet:find("/save") then
+     if user.haslogin == true then
+       command.var.savedworld = GetWorld().name
+       plog("World saved `w"..GetWorld().name)
+     else
+       err(proxy.errlogin)
+     end
+     return true
+   end
+   if packet:find("/back") then
+     if user.haslogin == true then
+       SendPacket(3, "action|join_request\nname|"..command.var.savedworld.."\ninvitedWorld|0")
+       plog("Warping to `w"..command.var.savedworld)
+     else
+       errc(proxy.errlogin)
+     end
+     return true
+   end
+   
+   
+   -- /relog command 
+   if packet:find("/relog") then
+     if user.haslogin == true then
+       SendPacket(3, "action|quit")
+       plog("Reloged.")
+     else
+       errc(proxy.errlogin)
+     end
+   end
+   
+   
   
   
    
