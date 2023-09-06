@@ -1,5 +1,6 @@
 # Mochas Proxy
 - latest version 1.2
+- supported gt version 4.36+
 - android client
 - discord support [server](https://discord.gg/Aj9UDmhz9b)
 
