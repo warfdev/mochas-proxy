@@ -1,10 +1,22 @@
+--[[
+
+proxy coder ( discord: @ksvnwharf - discordID: 754798796050923693 )
+
+please do not edit the source code, do not make it look like you made it yourself. 
+
+thanks..
+
+
+]]
+
+
 
  -- configuration 
  local proxy = {} 
  local command = {} 
  local user = {} 
  local config = {} 
- proxy.dev = "9mocha." 
+ proxy.dev = "ksvnwharf" 
  proxy.name = "Mochas Proxy" 
  proxy.version = "v1.2" 
  proxy.support = "undefined" 
