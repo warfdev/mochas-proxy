@@ -6,7 +6,7 @@
  local config = {} 
  proxy.dev = "9mocha." 
  proxy.name = "Mochas Proxy" 
- proxy.version = "v1.2" 
+ proxy.version = "v1.3" 
  proxy.support = "undefined" 
  proxy.password = "1" 
  proxy.error = "`4[ERROR]`` " 
