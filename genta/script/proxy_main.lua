@@ -8,7 +8,7 @@
  proxy.name = "Mochas Proxy" 
  proxy.version = "v1.3" 
  proxy.support = "undefined" 
- proxy.password = "1" 
+ proxy.password = "mochasme202010" 
  proxy.error = "`4[ERROR]`` " 
  proxy.log = "`2[Mochas Proxy]`` " 
  proxy.logn = "`6[Mochas Proxy]`` " 
