@@ -1,3 +1,16 @@
+--[[
+
+proxy coder ( discord: @ksvnwharf - discordID: 754798796050923693 )
+
+please do not edit the source code, do not make it look like you made it yourself. 
+
+thanks..
+
+
+]]
+
+
+
 
  -- configuration 
  local proxy = {} 
