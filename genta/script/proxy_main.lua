@@ -255,7 +255,7 @@ add_label_with_icon|big|`6Other:|left|32|
 add_button|proxywrenchm|`wExtra Cheats|
 add_spacer|small| 
 add_smalltext|ı Thanks for using `#Mochas Proxy``| 
-add_smalltext|Coded by `6@9mocha ``- `3[DISCORD]: ``9mocha.| 
+add_smalltext|Coded by `6@ksvnwharf``- `3[DISCORD]: ``ksvnwharf| 
 add_spacer|big| 
 add_quick_exit||| 
 end_dialog|proxymenu|Close||
