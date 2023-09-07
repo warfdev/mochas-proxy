@@ -1,6 +1,6 @@
 - Genta Hax Script like proxy
 # Mochas Proxy
-> latest version 1.2 ( change branch )
+> latest version 1.3 ( change branch )
 - android client
 - support gt version 4.34 / 4.35
 - discord support [server](https://discord.gg/Aj9UDmhz9b)
