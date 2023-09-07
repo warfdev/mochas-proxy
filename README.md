@@ -1,3 +1,4 @@
+- Genta Hax Script like proxy
 # Mochas Proxy
 > latest version 1.2 ( change branch )
 - android client
