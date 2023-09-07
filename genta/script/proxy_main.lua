@@ -6,9 +6,9 @@
  local config = {} 
  proxy.dev = "9mocha." 
  proxy.name = "Mochas Proxy" 
- proxy.version = "v1.1" 
+ proxy.version = "v1.2" 
  proxy.support = "undefined" 
- proxy.password = "mochasme202010" 
+ proxy.password = "1" 
  proxy.error = "`4[ERROR]`` " 
  proxy.log = "`2[Mochas Proxy]`` " 
  proxy.logn = "`6[Mochas Proxy]`` " 
@@ -19,11 +19,15 @@
  user.haslogin = false 
   
   
- -- comamnd vars 
+ -- comamnd vars
  command.var = {} 
  command.var.test = "hello" 
  command.var.invis = false 
- command.var.gforg = false 
+ command.var.gforg = false
+ command.var.wrenchpull = false
+ command.var.savedworld = false
+ command.var.rfspin = true
+ 
   
   
  -- config vars 
@@ -33,6 +37,13 @@
  local gforgg
  local drtitle
  local mod
+ local rfspin = true
+ local wrenchp
+ local wrenchk
+ local reme
+ local qeme
+ 
+ 
   
   
  -- custom funcs 
@@ -147,6 +158,14 @@
         end
     end
 end
+
+function GetName(id)
+    for _, name in pairs(PlayerList) do
+        if name.netid == id then
+            return name.name
+        end
+    end
+end
  
  function multiboxChecker(boolean)
     local hasil = ""
@@ -157,6 +176,47 @@ end
     end
     return hasil
  end
+ 
+ function tOverlay(str)
+   SendVariant({
+   	[0] = "OnTextOverlay",
+       [1] = str,
+   }, GetLocal().netid)
+ end
+ 
+ function qemefunc(number)
+    if number >= 10 then
+        hasil = string.sub(number, -1)
+    else
+        hasil = number
+    end
+    return hasil
+end
+
+function getGame(num)
+    if reme and not qeme then
+        return "`2[R:"..remefunc(tonumber(num)).."]"
+    elseif not reme and qeme then
+            return "`2[Q:"..qemefunc(tonumber(num)).."]"
+    elseif reme and qeme then
+            return "`2[R:"..remefunc(num).." and Q:"..qemefunc(num).."]"
+            else
+                return ""
+    end
+end
+
+function remefunc(number)
+    if number == 19 or number == 28 or number == 0 then
+        hasil = 0
+    else
+        num1 = math.floor(number / 10)
+        num2 = number % 10
+        hasil = string.sub(tostring(num1 + num2), -1)
+    end
+    return hasil
+end
+ 
+ 
  
  
   
@@ -172,7 +232,11 @@ add_textbox|`6/invis`` [you become invisible]||
 add_textbox|`6/scolor`` [you change your skin color]|| 
 add_textbox|`6/wd`` [drop wl (if u have)]|| 
 add_textbox|`6/dd`` [drop dl (if u have)]|| 
-add_textbox|`6/bd`` [drop bgl (if u have)]|| 
+add_textbox|`6/bd`` [drop bgl (if u have)]||
+add_textbox|`6/w`` [warping world]||
+add_textbox|`6/save`` [Saves the world name you are in (warping system)]||
+add_textbox|`6/back`` [You warp into the world you saved]||
+add_textbox|`6/relog`` [re-login]||
 add_spacer|big|
 add_label_with_icon|big|`6Other:|left|32|
 add_button|proxywrenchm|`wExtra Cheats|
@@ -246,12 +310,12 @@ end_dialog|proxycredits|Close||
      [0] = "OnCountryState", 
      [1] = "id|donor", 
    },GetLocal().netid) 
-    plog("Grow4Good title activated.")
+    plog("Grow4Good title `2enabled.")
   end
   end
   if packet:find("drt|1") then
     drtitle = true
-    plog("`4Dr. ``title activated.")
+    plog("`4Dr. ``title `2enabled.")
     SendVariant({
             [0] = "OnNameChanged",
             [1] = "Dr."..GetLocal().name,
@@ -266,7 +330,7 @@ end_dialog|proxycredits|Close||
     nick = GetLocal().name
     SendVariant({
             [0] = "OnNameChanged",
-            [1] = nick:gsub("`4Dr.", ""),
+            [1] = nick:gsub("Dr%.", ""),
         },GetLocal().netid)
         SendVariant({
             [0] = "OnCountryState",
@@ -276,11 +340,48 @@ end_dialog|proxycredits|Close||
   end
   if packet:find("mdetect|1") then
     mod = true
-    plog("Invisible moderator detection activated.")
+    plog("Invisible moderator detection `2enabled.")
   else if packet:find("mdetect|0") then
     mod = false
   end
   end
+  if packet:find("realfakespin|1") then
+    rfspin = true
+    plog("`2REAL``-`4FAKE`` spin detection `2enabled.")
+  else if packet:find("realfakespin|0") then
+    rfspin = false
+  end
+  end
+  if packet:find("wrenchpmode|1") then
+    wrenchp = true
+    plog("Wrench pull `2enabled.")
+  else if packet:find("wrenchpmode|0") then
+    wrenchp = false
+  end
+  end
+  if packet:find("wrenchkmode|1") then
+    wrenchk = true
+    plog("Wrench kick `2enabled.")
+  else if packet:find("wrenchkmode|0") then
+    wrenchk = false
+  end
+  end
+  if packet:find("gamereme|1") then
+    reme = true
+    plog("Reme checker `2enabled")
+  else if packet:find("gamereme|0") then
+    reme = false
+  end
+  end
+  if packet:find("gameqeme|1") then
+    qeme = true
+    plog("Qeme checker `2enabled")
+  else if packet:find("gameqeme|0") then
+    qeme = false
+  end
+  end
+  
+  
   
   
   end -- user.haslogin
@@ -323,6 +424,12 @@ end_dialog|proxycredits|Close||
      gforg = multiboxChecker(gforgg)
      drt = multiboxChecker(drtitle)
      modd = multiboxChecker(mod)
+     realfakes = multiboxChecker(rfspin)
+     wrenchpull = multiboxChecker(wrenchp)
+     wrenchkick = multiboxChecker(wrenchk)
+     remeg = multiboxChecker(reme)
+     qemeg = multiboxChecker(qeme)
+     
      SendVariant({
      	[0] = "OnDialogRequest",
          [1] = [[
@@ -331,6 +438,11 @@ add_spacer|big|
 add_checkbox|g4gt|Grow4Good Title|]]..gforg..[[|
 add_checkbox|drt|`4Dr.`` Title|]]..drt..[[|
 add_checkbox|mdetect|Invisible Moderator Detection|]]..modd..[[|
+add_checkbox|realfakespin|`2REAL``-`4FAKE`` Spin Detection|]]..realfakes..[[|
+add_checkbox|gamereme|Reme Checker|]]..remeg..[[|
+add_checkbox|gameqeme|Qeme Checker|]]..qemeg..[[|
+add_checkbox|wrenchpmode|Wrench Pull|]]..wrenchpull..[[|
+add_checkbox|wrenchkmode|Wrench Kick|]]..wrenchkick..[[|
 add_spacer|small|
 add_smalltext|`6Other features soon..|
 add_spacer|big|
@@ -440,7 +552,77 @@ end_dialog|proxywrenchend|Close|Set|
      end 
      return true 
    end
-  
+   
+   
+   -- /w command
+   if packet:find("/w (.+)") then
+     if user.haslogin == true then
+       SendPacket(3, "action|join_request\nname|"..packet:match("/w (.+)").."\ninvitedWorld|0")
+       tOverlay("Warping to `2"..packet:match("/w (.+)"))
+       plog("Warping to `w"..packet:match("/w (.+)"))
+     else
+       errc(proxy.errlogin)
+     end
+     return true
+   end
+   
+   
+   -- /save & /back command
+   if packet:find("/save") then
+     if user.haslogin == true then
+       command.var.savedworld = GetWorld().name
+       plog("World saved `w"..GetWorld().name)
+     else
+       err(proxy.errlogin)
+     end
+     return true
+   end
+   if packet:find("/back") then
+     if user.haslogin == true then
+       SendPacket(3, "action|join_request\nname|"..command.var.savedworld.."\ninvitedWorld|0")
+       plog("Warping to `w"..command.var.savedworld)
+     else
+       errc(proxy.errlogin)
+     end
+     return true
+   end
+   
+   
+   -- /relog command 
+   if packet:find("/relog") then
+     if user.haslogin == true then
+       SendPacket(3, "action|quit")
+       plog("Reloged.")
+     else
+       errc(proxy.errlogin)
+     end
+     return true
+   end
+   
+   
+   
+   -- -- -- -- ( WRENCH MODES ) -- -- -- --
+   -- pull
+   if wrenchp == true then
+   if packet:find("action|wrench\n|netid|(%d+)") then
+     netid = packet:match("action|wrench\n|netid|(%d+)")
+     if netid ~= GetLocal().netid then
+       SendPacket(2, "action|dialog_return\ndialog_name|popup\nnetID|"..netid.."|\nbuttonClicked|pull")
+       return true
+     end
+   end
+   end
+   
+   -- kick
+   if wrenchk == true then
+   if packet:find("action|wrench\n|netid|(%d+)") then
+     netid = packet:match("action|wrench\n|netid|(%d+)")
+     if netid ~= GetLocal().netid then
+       SendPacket(2, "action|dialog_return\ndialog_name|popup\nnetID|"..netid.."|\nbuttonClicked|kick")
+       return true
+     end
+   end
+   end
   
    
   
@@ -491,6 +673,39 @@ end)
         end
       end
     end
+    
+    
+    if rfspin == true then
+      if var[0] == "OnTalkBubble" then
+        if var[2]:find("spun the wheel") then
+          local fakem = "CT:"
+          if var[2]:find(fakem) then
+            SendVariant({
+            	[0] = "OnTalkBubble",
+                [1] = var[1],
+                [2] = "`7[ `4FAKE`` ] " .. var[2]:match("player_chat=(.+)"),
+            }, -1)
+            return true
+          else
+            local num = string.gsub(string.gsub(var[2]:match("and got (.+)"), "!%]", ""), "`", "")
+            local onlynumber = string.sub(num, 2)
+            local clearspace = string.gsub(onlynumber, " ", "")
+            local h = string.gsub(string.gsub(clearspace, "!7", ""), "]", "")
+            SendVariant({
+            	[0] = "OnTalkBubble",
+                [1] = var[1],
+                [2] = "`7[ `2REAL`` ] " .. var[2].." "..getGame(tonumber(h)),
+                [3] = 0,
+            }, -1)
+            return true
+          end
+          return true
+        end
+      end
+      return false
+    end
+    
+    
     
     
     
